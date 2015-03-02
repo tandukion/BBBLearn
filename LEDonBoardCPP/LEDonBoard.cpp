@@ -13,6 +13,8 @@
 using namespace std;
 
 #define LED0_PATH "/sys/class/leds/beaglebone:green:usr0"
+#define LED1_PATH "/sys/class/leds/beaglebone:grenn:usr1"
+
 
 void removeTrigger(){
    // remove the trigger from the LED

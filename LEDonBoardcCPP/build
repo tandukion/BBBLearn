@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "Test 1 - LED on Board using C++"
+g++ LEDonBoard.cpp -o LEDonBoard
+echo "Finished"

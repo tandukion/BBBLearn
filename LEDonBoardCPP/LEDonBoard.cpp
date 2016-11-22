@@ -13,13 +13,15 @@
 using namespace std;
 
 #define LED0_PATH "/sys/class/leds/beaglebone:green:usr0"
-#define LED1_PATH "/sys/class/leds/beaglebone:grenn:usr1"
+#define LED1_PATH "/sys/class/leds/beaglebone:green:usr1"
 
+// chosen LED Path
+#define LED LED1_PATH
 
 void removeTrigger(){
    // remove the trigger from the LED
    std::fstream fs;
-   fs.open( LED0_PATH "/trigger", std::fstream::out);
+   fs.open( LED "/trigger", std::fstream::out);
    fs << "none";
    fs.close();
 }
@@ -34,35 +36,38 @@ int main(int argc, char* argv[]){
    string cmd(argv[1]);
    std::fstream fs;
    cout << "Starting the LED flash program" << endl;
-   cout << "The LED Path is: " << LED0_PATH << endl;     
+   cout << "The LED Path is: " << LED << endl;     
 
    // select whether it is on, off or flash
    if(cmd=="on"){
-	removeTrigger();
-	fs.open (LED0_PATH "/brightness", std::fstream::out);
+     cout << "Turning on LED" << endl;
+        removeTrigger();
+	fs.open (LED "/brightness", std::fstream::out);
 	fs << "1";
 	fs.close();
    }
    else if (cmd=="off"){
-	removeTrigger();
-	fs.open (LED0_PATH "/brightness", std::fstream::out);
+     cout << "Turning off LED" << endl;
+        removeTrigger();
+	fs.open (LED "/brightness", std::fstream::out);
 	fs << "0";
 	fs.close();
    }
    else if (cmd=="flash"){
-	fs.open (LED0_PATH "/trigger", std::fstream::out);
+     cout << "Flashing LED" << endl;
+        fs.open (LED "/trigger", std::fstream::out);
 	fs << "timer";
 	fs.close();
-	fs.open (LED0_PATH "/delay_on", std::fstream::out);
+	fs.open (LED "/delay_on", std::fstream::out);
 	fs << "50";
 	fs.close();
-	fs.open (LED0_PATH "/delay_off", std::fstream::out);
+	fs.open (LED "/delay_off", std::fstream::out);
 	fs << "50";
 	fs.close();
    }
    else if (cmd=="status"){
 	// display the current trigger details
-	fs.open( LED0_PATH "/trigger", std::fstream::in);
+	fs.open( LED "/trigger", std::fstream::in);
 	string line;
 	while(getline(fs,line)) cout << line;
 	fs.close();      
